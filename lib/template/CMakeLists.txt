@@ -15,6 +15,7 @@ set(TEMPLATE_SOURCES
     template/macros.c
     template/simple-function.c
     template/repr.c
+    template/function.c
     template/compiler.c
     template/user-function.c
     template/escaping.c

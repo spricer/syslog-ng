@@ -71,19 +71,20 @@ tf_iterate_prepare(LogTemplateFunction *self, gpointer s, LogTemplate *parent, g
 static void
 update_current(LogTemplateFunction *self, IterateState *state, LogMessage *msg)
 {
-  NVHandle handle = log_msg_get_value_handle("it");
-  gchar *orig_it = g_strdup(log_msg_get_value_if_set(msg, handle, NULL));
-  log_msg_set_value(msg, handle, state->current->str, -1);
-
   g_string_assign(state->current, "");
   log_template_format(state->template, msg, NULL, LTZ_LOCAL, 0, NULL, state->current);
+}
 
-  if (orig_it)
-    log_msg_set_value(msg, handle, orig_it, -1);
-  else
-    log_msg_unset_value(msg, handle);
+static void
+tf_iterate_eval(LogTemplateFunction *self, gpointer s, LogTemplateInvokeArgs *args)
+{
+  IterateState *state = (IterateState *)s;
 
-  g_free(orig_it);
+  LogMessage *msg = args->messages[0];
+  LogTemplateEnvFrame *frame = log_template_build_frame("it", state->current->str);
+  log_template_push_frame(msg, frame);
+
+  tf_simple_func_eval(self, s, args);
 }
 
 static void
@@ -94,6 +95,8 @@ tf_iterate_call(LogTemplateFunction *self, gpointer s, const LogTemplateInvokeAr
   g_mutex_lock(&state->mutex);
   g_string_append(result, state->current->str);
   update_current(self, state, args->messages[0]);
+  LogMessage *msg = args->messages[0];
+  log_template_pop_frame(msg);
   g_mutex_unlock(&state->mutex);
 }
 
@@ -110,5 +113,5 @@ tf_iterate_free_state(gpointer s)
   tf_simple_func_free_state(&state->super);
 }
 
-TEMPLATE_FUNCTION(IterateState, tf_iterate, tf_iterate_prepare, NULL,
+TEMPLATE_FUNCTION(IterateState, tf_iterate, tf_iterate_prepare, tf_iterate_eval,
                   tf_iterate_call, tf_iterate_free_state, NULL);

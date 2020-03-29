@@ -16,6 +16,7 @@ templateinclude_HEADERS = \
 
 template_sources = \
 	lib/template/templates.c		\
+	lib/template/function.c			\
 	lib/template/macros.c			\
 	lib/template/simple-function.c		\
 	lib/template/repr.c			\

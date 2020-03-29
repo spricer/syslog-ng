@@ -109,4 +109,23 @@ struct _LogTemplateFunction
     .construct = x ## _construct,       \
   }
 
+typedef struct _LogTemplateEnvEntry
+{
+  gchar *key;
+  gchar *value;
+} LogTemplateEnvEntry;
+
+typedef GArray LogTemplateEnvFrame;
+
+const gchar *log_template_find_in_env(GList *env, const gchar *key);
+void log_template_push_frame(LogMessage *self, LogTemplateEnvFrame *frame);
+void log_template_pop_frame(LogMessage *self);
+/* #define log_template_build_frame(key, rest...) log_template_build_frame_impl(key, ##rest, NULL) */
+/* LogTemplateEnvFrame *log_template_build_frame_impl(const gchar *key, const gchar *value, ...); */
+
+#define log_template_build_frame(key, value, rest...) log_template_build_frame_impl(key, value, ##rest, NULL)
+LogTemplateEnvFrame *log_template_build_frame_impl(const gchar *key, const gchar *value, ...);
+
+
+
 #endif

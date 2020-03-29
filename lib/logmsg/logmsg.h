@@ -206,6 +206,7 @@ struct _LogMessage
   guint8 protect_cnt;
 
   guint64 rcptid;
+  GList *eval_env;
 
   /* preallocated LogQueueNodes used to insert this message into a LogQueue */
   LogMessageQueueNode nodes[0];

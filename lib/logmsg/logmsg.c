@@ -1399,6 +1399,8 @@ log_msg_free(LogMessage *self)
 
   stats_counter_sub(count_allocated_bytes, self->allocated_bytes);
 
+  g_assert(!self->eval_env);
+
   g_free(self);
 }
 

@@ -205,7 +205,10 @@ log_template_append_format_with_context(LogTemplate *self, LogMessage **messages
           const gchar *value = NULL;
           gssize value_len = -1;
 
-          value = log_msg_get_value(messages[msg_ndx], e->value_handle, &value_len);
+          GList *env = messages[msg_ndx]->eval_env;
+          if (!(env && ((value = log_template_find_in_env(env, log_msg_get_value_name(e->value_handle, NULL))))))
+            value = log_msg_get_value(messages[msg_ndx], e->value_handle, &value_len);
+
           if (value && value[0])
             result_append(result, value, value_len, self->escape);
           else if (e->default_value)
