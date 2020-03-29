@@ -574,7 +574,7 @@ Test(basicfuncs, test_functional)
   GString *result = g_string_new("");
 
   LogTemplate *template = log_template_new(configuration, NULL);
-  cr_assert(log_template_compile(template, "Some prefix $(iterate \"$(+ 1 $it)\" 0)", NULL));
+  cr_assert(log_template_compile(template, "Some prefix $(aiterate \"$(+ 1 $it)\" 0)", NULL));
 
   log_template_format(template, msg, NULL, LTZ_LOCAL, 999, "", result);
   cr_assert_str_eq(result->str, "Some prefix 0");

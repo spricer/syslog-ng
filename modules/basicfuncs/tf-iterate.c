@@ -35,7 +35,7 @@ tf_iterate_prepare(LogTemplateFunction *self, gpointer s, LogTemplate *parent, g
 {
   IterateState *state = (IterateState *)s;
 
-  GOptionContext *ctx = g_option_context_new("iterate");
+  GOptionContext *ctx = g_option_context_new("aiterate");
 
   if (!g_option_context_parse(ctx, &argc, &argv, error))
     {
@@ -51,7 +51,7 @@ tf_iterate_prepare(LogTemplateFunction *self, gpointer s, LogTemplate *parent, g
       return FALSE;
     }
 
-  state->template = log_template_new(configuration, "iterate");
+  state->template = log_template_new(configuration, "aiterate");
   if (!log_template_compile(state->template, argv[1], error))
     {
       log_template_unref(state->template);

@@ -133,7 +133,7 @@ static Plugin basicfuncs_plugins[] =
   TEMPLATE_FUNCTION_PLUGIN(tf_base64encode, "base64-encode"),
 
   /* functional */
-  TEMPLATE_FUNCTION_PLUGIN(tf_iterate, "iterate"),
+  TEMPLATE_FUNCTION_PLUGIN(tf_iterate, "aiterate"),
 
 };
 
